@@ -1,0 +1,28 @@
+<!-- Generated with EZOut 2.0.6: Install-Module EZOut or https://github.com/StartAutomating/EZOut -->
+<Types>
+  <Type>
+    <Name>OpenGraph</Name>
+    <Members>
+      <ScriptProperty>
+        <Name>HTML</Name>
+        <GetScriptBlock>
+                        @(if ($this -is [Management.Automation.PSModuleInfo]) {
+    if ($this.Description) {
+        "&lt;meta name='description' content='$([Web.HttpUtility]::HtmlAttributeEncode($this.Description))' /&gt;"
+    }
+    if ($this.PrivateData.PSData.IconUri) {
+
+    }
+} else {
+    foreach ($property in $this.PSObject.Properties) {
+        if ($property.Name -match ':') {
+            "&lt;meta property='$($property.Name)' content='$([Web.HttpUtility]::HtmlAttributeEncode($property.Value))' /&gt;"
+        }
+    }
+}) -join [Environment]::Newline
+
+                    </GetScriptBlock>
+      </ScriptProperty>
+    </Members>
+  </Type>
+</Types>
