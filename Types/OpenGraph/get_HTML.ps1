@@ -11,7 +11,11 @@
 } else {
     foreach ($property in $this.PSObject.Properties) {
         if ($property.Name -match ':') {
-            "<meta property='$($property.Name)' content='$([Web.HttpUtility]::HtmlAttributeEncode($property.Value))' />"
+            $value = $property.Value
+            if ($value -is [DateTime]) {
+                $value = $value.ToUniversalTime().ToString('o')
+            }
+            "<meta property='$($property.Name)' content='$([Web.HttpUtility]::HtmlAttributeEncode($value))' />"
         }
     }
 }) -join [Environment]::Newline
