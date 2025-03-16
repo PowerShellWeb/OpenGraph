@@ -1,0 +1,35 @@
+<!-- Generated with EZOut 2.0.6: Install-Module EZOut or https://github.com/StartAutomating/EZOut -->
+<Types>
+  <Type>
+    <Name>OpenGraph</Name>
+    <Members>
+      <ScriptProperty>
+        <Name>HTML</Name>
+        <GetScriptBlock>
+                        @(if ($this -is [Management.Automation.PSModuleInfo]) {
+    if ($this.Description) {
+        "&lt;meta name='description' content='$([Web.HttpUtility]::HtmlAttributeEncode($this.Description))' /&gt;"
+    }
+    if ($this.Author) {
+        "&lt;meta name='article:author' content='$([Web.HttpUtility]::HtmlAttributeEncode($this.Author))' /&gt;"
+    }
+    if ($this.PrivateData.PSData.IconUri) {
+        "&lt;meta property='og:image' content='$([Web.HttpUtility]::HtmlAttributeEncode($this.PrivateData.PSData.IconUri))' /&gt;"
+    }    
+} else {
+    foreach ($property in $this.PSObject.Properties) {
+        if ($property.Name -match ':') {
+            $value = $property.Value
+            if ($value -is [DateTime]) {
+                $value = $value.ToUniversalTime().ToString('o')
+            }
+            "&lt;meta property='$($property.Name)' content='$([Web.HttpUtility]::HtmlAttributeEncode($value))' /&gt;"
+        }
+    }
+}) -join [Environment]::Newline
+
+                    </GetScriptBlock>
+      </ScriptProperty>
+    </Members>
+  </Type>
+</Types>
