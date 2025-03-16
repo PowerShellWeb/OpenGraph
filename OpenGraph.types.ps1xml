@@ -10,9 +10,12 @@
     if ($this.Description) {
         "&lt;meta name='description' content='$([Web.HttpUtility]::HtmlAttributeEncode($this.Description))' /&gt;"
     }
-    if ($this.PrivateData.PSData.IconUri) {
-
+    if ($this.Author) {
+        "&lt;meta name='article:author' content='$([Web.HttpUtility]::HtmlAttributeEncode($this.Author))' /&gt;"
     }
+    if ($this.PrivateData.PSData.IconUri) {
+        "&lt;meta property='og:image' content='$([Web.HttpUtility]::HtmlAttributeEncode($this.PrivateData.PSData.IconUri))' /&gt;"
+    }    
 } else {
     foreach ($property in $this.PSObject.Properties) {
         if ($property.Name -match ':') {
