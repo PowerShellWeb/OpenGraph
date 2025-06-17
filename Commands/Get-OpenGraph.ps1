@@ -68,7 +68,7 @@ function Get-OpenGraph
             }
         }
         
-        if (-not $openGraphMetadata.Count) { return }                
+        if (-not $openGraphMetadata.Count) { return }
 
         [PSCustomObject]$openGraphMetadata                
     }
