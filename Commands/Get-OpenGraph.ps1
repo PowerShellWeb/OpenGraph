@@ -17,30 +17,42 @@ function Get-OpenGraph
         'https://cnn.com/',
             'https://msnbc.com/',
                 'https://fox.com/' |
-                    Get-OpenGraph        
+                    Get-OpenGraph
     #>
     [Alias('openGraph','ogp')]
-    param(
+    [CmdletBinding(PositionalBinding=$false)]
+    param(        
     # The URL that may contain Open Graph metadata 
-    [Parameter(ValueFromPipeline, ValueFromPipelineByPropertyName)]
+    [Parameter(ValueFromPipelineByPropertyName)]
     [Uri]
     $Url,
 
     # A dictionary of additional Open Graph metadata to include in the result
     [Parameter(ValueFromPipelineByPropertyName)]
     [Collections.IDictionary]
-    $Data
+    $Data,
+
+    # If set, forces the function to retrieve the Open Graph metadata even if it is already cached.
+    [Parameter(ValueFromPipelineByPropertyName)]
+    [switch]
+    $Force
     )
 
     begin {
         # Make a regex to match meta tags
         $metaRegex = [Regex]::new('<meta.+?/>','IgnoreCase','00:00:00.1')
+        if (-not $script:OpenGraphCache) {
+            $script:OpenGraphCache = [Ordered]@{}
+        }
     }
 
     process {
         # Declare an empty object to hold the Open Graph metadata
         $openGraphMetadata = [Ordered]@{PSTypeName='OpenGraph'}
         if ($Url) {
+            if ($script:OpenGraphCache[$url] -and -not $Force) {
+                return $script:OpenGraphCache[$url]
+            }
             $restResponse = Invoke-RestMethod -Uri $Url
             foreach ($match in $metaRegex.Matches("$restResponse")) {
                 $matchXml = "$match" -as [xml]
@@ -48,6 +60,7 @@ function Get-OpenGraph
                     $openGraphMetadata[$matchXml.meta.property] = $matchXml.meta.content
                 }
             }
+            $script:OpenGraphCache[$url] = $openGraphMetadata
         }
         if ($Data) {
             foreach ($key in $Data.Keys) {
@@ -55,7 +68,7 @@ function Get-OpenGraph
             }
         }
         
-        if (-not $openGraphMetadata.Count) { return }
+        if (-not $openGraphMetadata.Count) { return }                
 
         [PSCustomObject]$openGraphMetadata                
     }
