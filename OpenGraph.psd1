@@ -11,21 +11,21 @@
     TypesToProcess = 'OpenGraph.types.ps1xml'
     PrivateData = @{
         PSData = @{
-            Tags = @('OpenGraph','SEO', 'Web','PowerShellWeb')
+            Tags = @('OpenGraph','SEO','Web','PowerShellWeb' )
             ProjectURI = 'https://github.com/PowerShellWeb/OpenGraph'
             LicenseURI = 'https://github.com/PowerShellWeb/OpenGraph/blob/main/LICENSE'
             ReleaseNotes = @'
-
 > Like It? [Star It](https://github.com/PowerShellWeb/OpenGraph)
 > Love It? [Support It](https://github.com/sponsors/StartAutomating)
 
-Embed content from anywhere on the internet
+## OpenGraph 0.1
 
-## OpenGraph 0.0.1
+* `OpenGraph.ToString()` now returns HTML (#10)
+* `Get-OpenGraph` now caches results (#11)
 
-* Initial Release of OpenGraph Module (#1)
-    * `Get-OpenGraph` gets open graph information (#2)
-    * OpenGraph objects can get `.HTML` (#8)
+---
+
+Additional release notes can be found at [CHANGELOG.md](https://github.com/PowerShellWeb/OpenGraph/blob/main/CHANGELOG.md)
 '@        
         }
     }

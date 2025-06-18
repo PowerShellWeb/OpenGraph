@@ -3,6 +3,12 @@
   <Type>
     <Name>OpenGraph</Name>
     <Members>
+      <ScriptMethod>
+        <Name>ToString</Name>
+        <Script>
+                        $this.HTML
+                    </Script>
+      </ScriptMethod>
       <ScriptProperty>
         <Name>HTML</Name>
         <GetScriptBlock>
