@@ -1,6 +1,6 @@
 @{
     RootModule = 'OpenGraph.psm1'
-    ModuleVersion = '0.0.1'
+    ModuleVersion = '0.1'
     GUID = 'be4e4070-1ea6-4a2e-8b6a-c6b7755e5ace'
     Author = 'JamesBrundage'
     CompanyName = 'Start-Automating'
